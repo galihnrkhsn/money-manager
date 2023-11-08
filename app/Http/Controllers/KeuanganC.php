@@ -36,7 +36,9 @@ class KeuanganC extends Controller
         $totalUangMasuk = $this->getTotalUangMasuk();
         $totalUangKeluar = $this->getTotalUangKeluar();
         $history = Transaksi::all();
-        return view('dashboard.keuangan.index', compact('history', 'totalUangMasuk', 'totalUangKeluar'));
+
+        $totalSisaUang = $totalUangMasuk - $totalUangKeluar;
+        return view('dashboard.keuangan.index', compact('history', 'totalUangMasuk', 'totalUangKeluar', 'totalSisaUang'));
     }
 
 
@@ -49,8 +51,8 @@ class KeuanganC extends Controller
 
     public function getTotalUangKeluar()
     {
-        $totalUangMasuk = Transaksi::where('jenis', 2)->sum('nominal');
+        $totalUangKeluar = Transaksi::where('jenis', 2)->sum('nominal');
 
-        return $totalUangMasuk;
+        return $totalUangKeluar;
     }
 }
